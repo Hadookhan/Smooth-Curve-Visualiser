@@ -1,0 +1,49 @@
+
+# Build directories
+build/
+cmake-build-debug/
+cmake-build-release/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+compile_commands.json
+
+# Executables
+*.out
+*.exe
+
+# Object files
+*.o
+*.obj
+*.a
+*.so
+*.dll
+*.dylib
+*ini
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains CLion
+.idea/
+
+# Vim
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+*.csv
+
+# Temporary files
+tmp/
+temp/
+
+# Venv directory
+.venv/
