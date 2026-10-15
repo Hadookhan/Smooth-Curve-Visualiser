@@ -59,4 +59,14 @@ namespace Math {
         double end,
         double step
     );
+
+    Point helixArcLength(double a, double b, double s);
+
+    curve generateHelixArcLength(
+        double a,
+        double b,
+        double start,
+        double end,
+        double step
+    );
 }

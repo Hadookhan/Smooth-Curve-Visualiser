@@ -54,20 +54,10 @@ namespace Math {
     }
 
     Point helix(double a, double b, double t) {
-
-        const double denominator =
-            std::sqrt(a * a + b * b);
-
-        if (denominator < 1e-10) {
-            throw std::invalid_argument(
-                "a and b cannot both be zero."
-            );
-        }
-
         return {
-            a * std::cos(t / denominator),
-            a * std::sin(t / denominator),
-            (b * t) / denominator
+            a * std::cos(t),
+            a * std::sin(t),
+            b * t
         };
     }
 
@@ -300,5 +290,43 @@ namespace Math {
             N,
             B
         };
+    }
+
+    Point helixArcLength(double a, double b, double s) {
+        const double denominator = std::sqrt(a * a + b * b);
+
+        if (denominator < 1e-10) {
+            throw std::invalid_argument(
+                "a and b cannot both be zero."
+            );
+        }
+
+        return {
+            a * std::cos(s / denominator),
+            a * std::sin(s / denominator),
+            (b * s) / denominator
+        };
+    }
+
+    curve generateHelixArcLength(
+        double a,
+        double b,
+        double startS,
+        double endS,
+        double step
+    ) {
+        curve c;
+
+        for (
+            double s = startS;
+            s <= endS;
+            s += step
+        ) {
+            c.points.push_back(
+                helixArcLength(a, b, s)
+            );
+        }
+
+        return c;
     }
 }

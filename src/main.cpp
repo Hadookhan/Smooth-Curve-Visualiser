@@ -129,6 +129,8 @@ int main() {
 
     float selectedT = 5.0f;
 
+    bool parameterisedByArcLength = false;
+
     bool showTangent = true;
     bool showNormal = true;
     bool showBinormal = true;
@@ -178,6 +180,11 @@ int main() {
         );
 
         ImGui::Checkbox(
+            "Parameterised by Arc Length",
+            &parameterisedByArcLength
+        );
+
+        ImGui::Checkbox(
             "Animate",
             &animate
         );
@@ -211,7 +218,9 @@ int main() {
         );
 
         ImGui::SliderFloat(
-            "Position t",
+            parameterisedByArcLength
+                ? "Position s"
+                : "Position t",
             &selectedT,
             0.0f,
             curveLength
@@ -252,13 +261,23 @@ int main() {
         const double step = 0.05;
 
         if (selectedCurve == 0) { // Helix
-            Curve = Math::generateHelix(
-                a,
-                b,
-                0.0,
-                curveLength,
-                step
-            );
+            if (parameterisedByArcLength) {
+                Curve = Math::generateHelixArcLength(
+                    a,
+                    b,
+                    0.0,
+                    curveLength,
+                    step
+                );
+            } else {
+                Curve = Math::generateHelix(
+                    a,
+                    b,
+                    0.0,
+                    curveLength,
+                    step
+                );
+            }
         } else if (selectedCurve == 1) { // Torus Knot
             Curve = Math::generateTorusKnot(
                 a,
@@ -320,6 +339,22 @@ int main() {
         const Math::Point& selectedPoint =
             Curve.points[selectedIndex];
 
+        double pointSpacing =
+            Math::distance(
+                Curve.points[selectedIndex],
+                Curve.points[selectedIndex + 1]
+            );
+
+        ImGui::Text(
+            "Point spacing: %.5f",
+            pointSpacing
+        );
+
+        ImGui::Text(
+            "Parameter step: %.5f",
+            step
+        );
+
 
         // --------------------------------
         // Display numerical values
@@ -359,12 +394,12 @@ int main() {
 
         ImGui::Text(
             "Curvature: %.5f",
-            Math::curvature(Curve, selectedIndex)
+            selectedCurvature
         );
 
         ImGui::Text(
             "Torsion: %.5f",
-            Math::torsion(Curve, selectedIndex)
+            selectedTorsion
         );
 
         ImGui::End();
